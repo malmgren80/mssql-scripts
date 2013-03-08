@@ -1,4 +1,4 @@
-CREATE procedure [GenerateScripts]
+CREATE procedure [GenerateInserts]
 @TableSchema NVARCHAR(256),  
 @TableName NVARCHAR(256),  
 @Where NVARCHAR(MAX)
