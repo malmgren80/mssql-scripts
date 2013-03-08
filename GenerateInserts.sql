@@ -1,7 +1,7 @@
-ALTER procedure [GenerateScripts]
+CREATE procedure [GenerateScripts]
 @TableSchema NVARCHAR(256),  
 @TableName NVARCHAR(256),  
-@Query NVARCHAR(MAX)
+@Where NVARCHAR(MAX)
 AS  
 BEGIN 
 	DECLARE @StartInsert NVARCHAR(MAX)
