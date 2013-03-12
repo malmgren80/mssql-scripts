@@ -1,4 +1,7 @@
-CREATE procedure [GenerateInserts]
+IF OBJECT_ID('[dbo].[GenerateInserts]') IS NOT NULL DROP PROCEDURE [dbo].[GenerateInserts]
+GO
+
+CREATE PROCEDURE [dbo].[GenerateInserts]
 @TableSchema NVARCHAR(256),  
 @TableName NVARCHAR(256),  
 @Where NVARCHAR(MAX)
@@ -8,6 +11,11 @@ BEGIN
 	DECLARE @ColumnNames NVARCHAR(MAX)
 	DECLARE @ColumnName NVARCHAR(512);
 	DECLARE @DataType NVARCHAR(512);
+	
+	IF (LEN(LTRIM(RTRIM(@Where))) > 0)
+	BEGIN
+		SET @Where = case when UPPER(LEFT(LTRIM(@Where), 6)) = 'WHERE ' THEN @Where ELSE 'WHERE ' + @Where END
+	END
 
 	SELECT		@ColumnNames = COALESCE(@ColumnNames + ', ', '') + columns.column_name
 	FROM		information_schema.columns
@@ -52,8 +60,7 @@ BEGIN
 	SET @Values = LEFT(@Values, LEN(@Values) - 8)
 
 	DECLARE @SelectInsert NVARCHAR(MAX)
-	SET @SelectInsert = 'SELECT ''' + @StartInsert + @Values + ' + '' )'' FROM ' + @TableSchema + '.' + @TableName + 
-	' WHERE ' + @Where
+	SET @SelectInsert = 'SELECT ''' + @StartInsert + @Values + ' + '' )'' FROM ' + @TableSchema + '.' + @TableName + ' ' + @Where
 
 	EXEC(@SelectInsert)
 	
