@@ -3,8 +3,8 @@ select	'public void Add' + table_name + '(' + table_name + ' ' + lower(table_nam
 '	using (var connection = new SqlConnection(_connectionString))' + CHAR(13) + 
 '	{' + CHAR(13) + 
 '		string sql = ' + CHAR(13) +
-'			@"INSERT INTO [' + table_name + '] (' + columns + ')' + CHAR(13) +
-'					VALUES (' + sqlParameters + ')";' + CHAR(13) +
+'			@"INSERT INTO [' + table_name + '] (' + columns + ' )' + CHAR(13) +
+'					VALUES (' + sqlParameters + ' )";' + CHAR(13) +
 CHAR(13) +
 '		var param = new' + CHAR(13) +
 '       {' + CHAR(13) + 
