@@ -12,6 +12,18 @@
 - Use the template below to create a new version. Put the new version last.
 **************************************************************************/
 
+/****** Version 0 start ****/
+IF (NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME =
+'DBVersion'))
+BEGIN
+
+        CREATE TABLE [DBVersion](
+                [Version] int NOT NULL,
+                [Created] datetime NOT NULL default GETDATE())
+
+END
+GO
+/****** Version 0 end ****/
 
 /****** Version XX start ****/
 DECLARE @InstalledVersion int
