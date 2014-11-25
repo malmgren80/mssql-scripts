@@ -26,10 +26,8 @@ GO
 /****** Version 0 end ****/
 
 /****** Version XX start ****/
-DECLARE @InstalledVersion int
 DECLARE @UpdateVersion int = XX
-SELECT @InstalledVersion = ISNULL(MAX([Version]), 0) FROM [DBVersion]
-IF @InstalledVersion < @UpdateVersion
+IF NOT EXISTS (SELECT * FROM [DBVersion] WHERE [Version] = @UpdateVersion)
 BEGIN
 	BEGIN TRY
 		BEGIN TRAN
