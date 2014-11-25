@@ -36,13 +36,14 @@ BEGIN
 		 * Put your statement(s) here *
 		 *****************************/
 
-		 -- Update version and rollback if it failed.
+		 -- Update version
 		INSERT INTO DBVersion ([Version]) VALUES(@UpdateVersion)
 
 		 -- Commit everything if nothing failed.
 		COMMIT
 	END TRY
 	BEGIN CATCH
+		-- Rollback if it failed.
 		ROLLBACK
 
 		DECLARE @ErrorMessage NVARCHAR(4000);
@@ -52,6 +53,7 @@ BEGIN
 			@ErrorMessage = ERROR_MESSAGE(),
 			@ErrorState = ERROR_STATE();
 
+		-- Stop script execution (don't execute versions below)
 		RAISERROR (@ErrorMessage, 20, @ErrorState) WITH LOG;
 	END CATCH
 END
